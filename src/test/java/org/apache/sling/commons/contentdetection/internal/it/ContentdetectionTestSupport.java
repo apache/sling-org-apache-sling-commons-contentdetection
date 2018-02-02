@@ -29,8 +29,6 @@ public abstract class ContentdetectionTestSupport extends TestSupport {
 
     @Configuration
     public Option[] configuration() {
-        versionResolver.setVersion("org.apache.felix", "org.apache.felix.http.jetty", "3.1.6"); // Java 7
-        versionResolver.setVersion("org.apache.felix", "org.apache.felix.http.whiteboard", "2.3.2"); // Java 7
         return new Option[]{
             baseConfiguration(),
             launchpad(),
