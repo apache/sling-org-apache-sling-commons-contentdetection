@@ -20,8 +20,7 @@ import org.apache.sling.testing.paxexam.TestSupport;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
 
-import static org.apache.sling.testing.paxexam.SlingOptions.slingLaunchpadOakTar;
-import static org.apache.sling.testing.paxexam.SlingOptions.versionResolver;
+import static org.apache.sling.testing.paxexam.SlingOptions.slingQuickstartOakTar;
 import static org.ops4j.pax.exam.CoreOptions.composite;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 
@@ -31,7 +30,7 @@ public abstract class ContentdetectionTestSupport extends TestSupport {
     public Option[] configuration() {
         return new Option[]{
             baseConfiguration(),
-            launchpad(),
+            slingQuickstart(),
             // Sling Content Detection
             testBundle("bundle.filename"),
             // testing
@@ -39,11 +38,11 @@ public abstract class ContentdetectionTestSupport extends TestSupport {
         };
     }
 
-    protected Option launchpad() {
+    protected Option slingQuickstart() {
         final int httpPort = findFreePort();
         final String workingDirectory = workingDirectory();
         return composite(
-            slingLaunchpadOakTar(workingDirectory, httpPort)
+            slingQuickstartOakTar(workingDirectory, httpPort)
         );
     }
 

@@ -80,7 +80,7 @@ public class ContentAwareMimeTypeServiceImplIT extends ContentdetectionTestSuppo
         assertNotNull("Expecting stream to be found:" + filename, s);
         InputStream originalStream = null;
         try {
-            assertEquals("audio/x-wav", contentAwareMimeTypeService.getMimeType(filename, s));
+            assertEquals("audio/vnd.wave", contentAwareMimeTypeService.getMimeType(filename, s));
             originalStream = getClass().getResourceAsStream(path);
             assertNotNull("Expecting stream to be found:" + filename, originalStream);
             assertTrue("Expecting content to be unchanged", IOUtils.contentEquals(s, originalStream));
