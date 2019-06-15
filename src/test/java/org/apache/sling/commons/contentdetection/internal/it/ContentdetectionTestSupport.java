@@ -19,6 +19,7 @@ package org.apache.sling.commons.contentdetection.internal.it;
 import org.apache.sling.testing.paxexam.TestSupport;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
+import org.ops4j.pax.exam.options.ModifiableCompositeOption;
 
 import static org.apache.sling.testing.paxexam.SlingOptions.slingQuickstartOakTar;
 import static org.ops4j.pax.exam.CoreOptions.composite;
@@ -38,7 +39,7 @@ public abstract class ContentdetectionTestSupport extends TestSupport {
         };
     }
 
-    protected Option slingQuickstart() {
+    protected ModifiableCompositeOption slingQuickstart() {
         final int httpPort = findFreePort();
         final String workingDirectory = workingDirectory();
         return composite(
