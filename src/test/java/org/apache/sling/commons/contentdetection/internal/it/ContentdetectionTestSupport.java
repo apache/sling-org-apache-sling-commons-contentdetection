@@ -24,19 +24,20 @@ import org.ops4j.pax.exam.options.ModifiableCompositeOption;
 import static org.apache.sling.testing.paxexam.SlingOptions.slingQuickstartOakTar;
 import static org.ops4j.pax.exam.CoreOptions.composite;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
+import static org.ops4j.pax.exam.CoreOptions.options;
 
 public abstract class ContentdetectionTestSupport extends TestSupport {
 
     @Configuration
     public Option[] configuration() {
-        return new Option[]{
+        return options(
             baseConfiguration(),
             slingQuickstart(),
             // Sling Content Detection
             testBundle("bundle.filename"),
             // testing
             junitBundles()
-        };
+        );
     }
 
     protected ModifiableCompositeOption slingQuickstart() {
