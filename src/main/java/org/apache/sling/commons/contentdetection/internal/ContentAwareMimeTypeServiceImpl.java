@@ -52,10 +52,16 @@ public class ContentAwareMimeTypeServiceImpl implements  ContentAwareMimeTypeSer
         if(!content.markSupported()) {
             throw new IllegalArgumentException("Supplied InputStream does not support mark/reset");
         }
-        TikaInputStream stream = TikaInputStream.get(content);
-        Metadata metadata = new Metadata();
-        metadata.set(Metadata.RESOURCE_NAME_KEY, filename);
-        MediaType mediaType = detector.detect(stream, metadata);
+        MediaType mediaType;
+        TemporaryResources tmp = new TemporaryResources();
+        try {
+            TikaInputStream stream = TikaInputStream.get(content, tmp);
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, filename);
+            mediaType = detector.detect(stream, metadata);
+        } finally {
+            tmp.close();
+        }
         return mediaType.toString();
     }
 
