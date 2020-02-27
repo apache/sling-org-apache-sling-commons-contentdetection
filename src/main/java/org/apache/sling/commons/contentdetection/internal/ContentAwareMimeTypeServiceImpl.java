@@ -20,6 +20,7 @@ package org.apache.sling.commons.contentdetection.internal;
 import org.apache.sling.commons.contentdetection.ContentAwareMimeTypeService;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.tika.detect.Detector;
+import org.apache.tika.io.TemporaryResources;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MediaType;
@@ -52,10 +53,13 @@ public class ContentAwareMimeTypeServiceImpl implements  ContentAwareMimeTypeSer
         if(!content.markSupported()) {
             throw new IllegalArgumentException("Supplied InputStream does not support mark/reset");
         }
-        TikaInputStream stream = TikaInputStream.get(content);
-        Metadata metadata = new Metadata();
-        metadata.set(Metadata.RESOURCE_NAME_KEY, filename);
-        MediaType mediaType = detector.detect(stream, metadata);
+        MediaType mediaType;
+        try (TemporaryResources tmp = new TemporaryResources()){
+            TikaInputStream stream = TikaInputStream.get(content, tmp);
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, filename);
+            mediaType = detector.detect(stream, metadata);
+        }
         return mediaType.toString();
     }
 
