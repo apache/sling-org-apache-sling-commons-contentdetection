@@ -24,14 +24,14 @@
     <parent>
         <groupId>org.apache.sling</groupId>
         <artifactId>sling-bundle-parent</artifactId>
-        <version>35</version>
+        <version>38</version>
         <relativePath />
     </parent>
 
     <artifactId>org.apache.sling.commons.contentdetection</artifactId>
     <version>1.0.5-SNAPSHOT</version>
 
-    <name>Apache Sling Content Detection Support</name>
+    <name>Apache Sling Commons Content Detection</name>
     <description>Content-based MIME type detection</description>
 
     <properties>
@@ -190,4 +190,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
