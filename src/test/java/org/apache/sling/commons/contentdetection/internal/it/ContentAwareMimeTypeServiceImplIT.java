@@ -64,7 +64,6 @@ public class ContentAwareMimeTypeServiceImplIT extends ContentdetectionTestSuppo
             return false;
         }
     }
-    ;
 
     @Test
     public void detectFromExtension() throws IOException {
