@@ -50,10 +50,14 @@ public class ContentAwareMimeTypeServiceImplIT extends ContentdetectionTestSuppo
         }
 
         @Override
-        public synchronized void mark(int readlimit) {}
+        public synchronized void mark(int readlimit) {
+            // intentionally empty
+        }
 
         @Override
-        public synchronized void reset() throws IOException {}
+        public synchronized void reset() throws IOException {
+            // intentionally empty
+        }
 
         @Override
         public boolean markSupported() {
@@ -96,11 +100,8 @@ public class ContentAwareMimeTypeServiceImplIT extends ContentdetectionTestSuppo
 
     @Test(expected = IllegalArgumentException.class)
     public void nonMarkableStreamDetectionShouldFail() throws IOException {
-        final InputStream nms = new NonMarkableStream(new ByteArrayInputStream("1234567890".getBytes()));
-        try {
+        try (InputStream nms = new NonMarkableStream(new ByteArrayInputStream("1234567890".getBytes()))) {
             contentAwareMimeTypeService.getMimeType("foo.txt", nms);
-        } finally {
-            IOUtils.closeQuietly(nms);
         }
     }
 }

@@ -54,8 +54,7 @@ public class FileNameExtractorImplTest {
     }
 
     @Test
-    public void testInvalidEncoding()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void testInvalidEncoding() throws SecurityException, IllegalArgumentException {
         final String rawPath = "http://example.com/demo%20test.jpg?test=true";
         final String oldEncoding = defaultEncoding;
         final String badEncoding = "INVALID_ENCODING";

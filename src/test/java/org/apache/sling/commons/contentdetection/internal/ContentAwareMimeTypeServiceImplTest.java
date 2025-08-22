@@ -95,11 +95,8 @@ public class ContentAwareMimeTypeServiceImplTest {
     @Test
     public void testRegisterMimeTypeIsDelegatedB() throws IOException {
         final int before = counterB;
-        final InputStream is = new ByteArrayInputStream("x".getBytes());
-        try {
+        try (InputStream is = new ByteArrayInputStream("x".getBytes())) {
             contentAwareMimeTypeService.registerMimeType(is);
-        } finally {
-            is.close();
         }
         Assert.assertEquals("Expecting 1 call to registerMimeType(B)", before + 1, counterB);
     }
