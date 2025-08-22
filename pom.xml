@@ -16,7 +16,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -24,7 +23,7 @@
     <parent>
         <groupId>org.apache.sling</groupId>
         <artifactId>sling-bundle-parent</artifactId>
-        <version>38</version>
+        <version>62</version>
         <relativePath />
     </parent>
 
@@ -34,18 +33,19 @@
     <name>Apache Sling Commons Content Detection</name>
     <description>Content-based MIME type detection</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <org.ops4j.pax.exam.version>4.13.3</org.ops4j.pax.exam.version>
-    </properties>
-    
     <scm>
         <connection>scm:git:https://gitbox.apache.org/repos/asf/sling-org-apache-sling-commons-contentdetection.git</connection>
         <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/sling-org-apache-sling-commons-contentdetection.git</developerConnection>
-        <url>http://sling.apache.org/documentation/bundles/mime-type-support-commons-mime.html</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+        <url>https://gitbox.apache.org/repos/asf/sling-org-apache-sling-commons-contentdetection/tree/${project.scm.tag}</url>
+    </scm>
+
+    <properties>
+        <sling.java.version>17</sling.java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <org.ops4j.pax.exam.version>4.14.0</org.ops4j.pax.exam.version>
+    </properties>
 
     <dependencies>
         <!-- javax -->
@@ -55,6 +55,11 @@
             <scope>test</scope>
         </dependency>
         <!-- OSGi -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.framework</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.annotation.versioning</artifactId>
@@ -71,14 +76,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>osgi.core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>biz.aQute.bnd</groupId>
             <artifactId>biz.aQute.bndlib</artifactId>
-            <version>3.5.0</version>
+            <version>${bnd.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Apache Commons -->
@@ -90,29 +90,29 @@
         </dependency>
         <!-- Apache Sling -->
         <dependency>
-            <version>2.1.8</version>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.commons.mime</artifactId>
+            <version>2.1.8</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.testing.paxexam</artifactId>
-            <version>3.1.0</version>
+            <version>4.1.2</version>
             <scope>test</scope>
         </dependency>
         <!-- Apache Tika-->
         <dependency>
-            <version>1.17</version>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
+            <version>1.17</version>
             <scope>provided</scope>
         </dependency>
         <!-- Apache Felix -->
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
-            <version>6.0.3</version>
+            <version>7.0.5</version>
             <scope>test</scope>
         </dependency>
         <!-- testing -->
@@ -166,14 +166,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     <systemProperties>
@@ -183,6 +175,14 @@
                         </property>
                     </systemProperties>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.servicemix.tooling</groupId>
