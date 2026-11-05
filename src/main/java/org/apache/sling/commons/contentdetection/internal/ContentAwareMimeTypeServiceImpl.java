@@ -20,6 +20,7 @@ package org.apache.sling.commons.contentdetection.internal;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.apache.sling.commons.contentdetection.ContentAwareMimeTypeService;
 import org.apache.sling.commons.mime.MimeTypeService;
@@ -27,8 +28,11 @@ import org.apache.tika.detect.Detector;
 import org.apache.tika.io.TemporaryResources;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.mime.MediaType;
+import org.apache.tika.parser.ParseContext;
 import org.osgi.framework.Constants;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -40,12 +44,17 @@ import org.osgi.service.component.annotations.Reference;
         })
 public class ContentAwareMimeTypeServiceImpl implements ContentAwareMimeTypeService {
 
-    @Reference
-    Detector detector;
+    private final Detector detector;
 
-    @Reference
-    MimeTypeService mimeTypeService;
+    private final MimeTypeService mimeTypeService;
 
+    @Activate
+    public ContentAwareMimeTypeServiceImpl(@Reference Detector detector, @Reference MimeTypeService mimeTypeService) {
+        this.detector = detector;
+        this.mimeTypeService = mimeTypeService;
+    }
+
+    @Override
     public String getMimeType(String filename, InputStream content) throws IOException, IllegalArgumentException {
         if (content == null) {
             return mimeTypeService.getMimeType(filename);
@@ -55,27 +64,41 @@ public class ContentAwareMimeTypeServiceImpl implements ContentAwareMimeTypeServ
         }
         MediaType mediaType;
         try (TemporaryResources tmp = new TemporaryResources()) {
-            TikaInputStream stream = TikaInputStream.get(content, tmp);
             Metadata metadata = new Metadata();
-            metadata.set(Metadata.RESOURCE_NAME_KEY, filename);
-            mediaType = detector.detect(stream, metadata);
+            metadata.set(TikaCoreProperties.RESOURCE_NAME_KEY, filename);
+            TikaInputStream stream = TikaInputStream.get(content, tmp, metadata);
+            mediaType = detector.detect(stream, metadata, new ParseContext());
         }
         return mediaType.toString();
     }
 
+    @Override
     public String getMimeType(String name) {
         return mimeTypeService.getMimeType(name);
     }
 
+    @Override
     public String getExtension(String mimeType) {
         return mimeTypeService.getExtension(mimeType);
     }
 
+    @Override
     public void registerMimeType(String mimeType, String... extensions) {
         mimeTypeService.registerMimeType(mimeType, extensions);
     }
 
+    @Override
     public void registerMimeType(InputStream mimeTabStream) throws IOException {
         mimeTypeService.registerMimeType(mimeTabStream);
+    }
+
+    @Override
+    public Map<String, String> getMimeMap() {
+        return mimeTypeService.getMimeMap();
+    }
+
+    @Override
+    public Map<String, String> getExtensionMap() {
+        return mimeTypeService.getExtensionMap();
     }
 }
