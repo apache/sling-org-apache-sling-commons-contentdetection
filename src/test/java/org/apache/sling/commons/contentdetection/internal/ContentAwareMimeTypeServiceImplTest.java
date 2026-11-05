@@ -21,7 +21,8 @@ package org.apache.sling.commons.contentdetection.internal;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.Map;
 
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.junit.Assert;
@@ -30,7 +31,7 @@ import org.junit.Test;
 
 public class ContentAwareMimeTypeServiceImplTest {
 
-    private ContentAwareMimeTypeServiceImpl contentAwareMimeTypeService = null;
+    private ContentAwareMimeTypeServiceImpl contentAwareMimeTypeService;
     private int counterA;
     private int counterB;
 
@@ -55,14 +56,21 @@ public class ContentAwareMimeTypeServiceImplTest {
         public void registerMimeType(InputStream mimeTabStream) throws IOException {
             counterB++;
         }
+
+        @Override
+        public Map<String, String> getMimeMap() {
+            return Collections.emptyMap();
+        }
+
+        @Override
+        public Map<String, String> getExtensionMap() {
+            return Collections.emptyMap();
+        }
     };
 
     @Before
     public void setup() throws NoSuchFieldException, IllegalAccessException {
-        contentAwareMimeTypeService = new ContentAwareMimeTypeServiceImpl();
-        final Field field = contentAwareMimeTypeService.getClass().getDeclaredField("mimeTypeService");
-        field.setAccessible(true);
-        field.set(contentAwareMimeTypeService, mimeTypeService);
+        contentAwareMimeTypeService = new ContentAwareMimeTypeServiceImpl(null, mimeTypeService);
     }
 
     @Test
