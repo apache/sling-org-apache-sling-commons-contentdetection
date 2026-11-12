@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>org.apache.sling.commons.contentdetection</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-SNAPSHOT</version>
 
     <name>Apache Sling Commons Content Detection</name>
     <description>Content-based MIME type detection</description>
@@ -36,7 +36,7 @@
     <scm>
         <connection>scm:git:https://gitbox.apache.org/repos/asf/sling-org-apache-sling-commons-contentdetection.git</connection>
         <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/sling-org-apache-sling-commons-contentdetection.git</developerConnection>
-        <tag>org.apache.sling.commons.contentdetection-1.1.0</tag>
+        <tag>HEAD</tag>
         <url>https://gitbox.apache.org/repos/asf/sling-org-apache-sling-commons-contentdetection/tree/${project.scm.tag}</url>
     </scm>
 
